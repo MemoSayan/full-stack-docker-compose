@@ -1,12 +1,14 @@
-package mx.com.ddd.spring.infrastructure;
+package mx.com.ddd.spring.domain.services.employee.converter;
 
 import mx.com.ddd.spring.domain.EmployeeDTO;
 import mx.com.ddd.spring.domain.model.Employee;
 import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class Converter {
 
     Employee employee;
@@ -33,15 +35,13 @@ public class Converter {
         if (employee == null) {
             return null;
         }
-
-        List<EmployeeDTO> listDestination = new ArrayList<>();
-
-        for (int i = 0; i < listDestination.size(); i++) {
-            BeanUtils.copyProperties(employee.get(i), listDestination.get(i));
+        List<EmployeeDTO> list = new ArrayList<>();
+        for (int i = 0; i < employee.size(); i++) {
+            Employee employeeEt = employee.get(i);
+            EmployeeDTO employeeDTO  = toDto(employeeEt);
+            list.add(employeeDTO);
         }
-
-        return listDestination;
+        return list;
     }
-
 
 }

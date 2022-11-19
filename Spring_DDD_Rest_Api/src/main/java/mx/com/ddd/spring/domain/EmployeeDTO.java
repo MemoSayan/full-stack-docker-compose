@@ -16,7 +16,7 @@ public class EmployeeDTO {
     private String jobTitle;
     private String phone;
     private String imageUrl;
-    private String employeeCode;
+
 
 
 }
