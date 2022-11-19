@@ -1,19 +1,21 @@
 package mx.com.ddd.spring.application.controller;
 
 import mx.com.ddd.spring.domain.EmployeeDTO;
-import mx.com.ddd.spring.domain.model.Employee;
 import mx.com.ddd.spring.domain.services.employee.EmployeeService;
+import mx.com.ddd.spring.domain.services.employee.EmployeeServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.websocket.ClientEndpoint;
 import java.util.List;
 
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
+//@CrossOrigin(origin = "http://localhost:")
 @RestController
 @RequestMapping("/api")
 public class EmployeeController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(EmployeeController.class);
     @Autowired
     private EmployeeService employeeService;
 
@@ -44,7 +46,7 @@ public class EmployeeController {
     }
 
     @DeleteMapping("/clientes/{id}")
-    public void delete(@PathVariable Long id ){
+    public void delete(@PathVariable Long id) {
         employeeService.delete(id);
     }
 

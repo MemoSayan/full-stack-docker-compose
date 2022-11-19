@@ -8,11 +8,15 @@ import mx.com.ddd.spring.domain.services.employee.converter.Converter;
 import mx.com.ddd.spring.infrastructure.repository.employee.EmployeeRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+/**
+ *
+ * @author Guillermo De la cruz
+ * @since 2022-11/19
+ */
 
 @Service
 @AllArgsConstructor
@@ -29,7 +33,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     /**
      * Query: Finds All Employees.
      *
-     * @return all {@link Employee}s of the Company.
+     * @return all {@link EmployeeDTO}s of the Company.
      **/
     @Override
     public List<EmployeeDTO> findAll() {
@@ -38,19 +42,29 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     }
 
+    /**
+     * @return {@link EmployeeDTO} saved.
+     **/
     @Override
     public EmployeeDTO save(EmployeeDTO employeeDTO) {
-        LOGGER.info(".. ::save .. ", employeeDTO);
         Employee employee = convertir.toEntity(employeeDTO);
         employeeRepository.save(employee);
         return employeeDTO;
     }
 
+    /**
+     * @param id of the Employee
+     **/
     @Override
     public void delete(Long id) {
         employeeRepository.deleteById(id);
     }
 
+    /**
+     * query find the employee
+     *
+     * @return the {@link EmployeeDTO} .
+     **/
     @Override
     public EmployeeDTO findById(Long id) {
         Employee employee = employeeRepository.findById(id).orElse(null);
