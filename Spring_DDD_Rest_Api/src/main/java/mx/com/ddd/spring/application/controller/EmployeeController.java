@@ -2,7 +2,6 @@ package mx.com.ddd.spring.application.controller;
 
 import mx.com.ddd.spring.domain.EmployeeDTO;
 import mx.com.ddd.spring.domain.services.employee.EmployeeService;
-import mx.com.ddd.spring.domain.services.employee.EmployeeServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +10,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 
-//@CrossOrigin(origin = "http://localhost:")
+@CrossOrigin(origins = "http://localhost:3000/")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/employee/api/v1")
 public class EmployeeController {
     private static final Logger LOGGER = LoggerFactory.getLogger(EmployeeController.class);
     @Autowired
@@ -45,7 +44,7 @@ public class EmployeeController {
         return employeeService.save(employeeDTO);
     }
 
-    @DeleteMapping("/clientes/{id}")
+    @DeleteMapping("/employee/{id}")
     public void delete(@PathVariable Long id) {
         employeeService.delete(id);
     }
