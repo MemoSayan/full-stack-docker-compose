@@ -5,10 +5,15 @@ import mx.com.ddd.spring.domain.services.employee.EmployeeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
+import javax.validation.Valid;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 //@CrossOrigin(origins = {"http://localhost:3000"})
@@ -29,9 +34,35 @@ public class EmployeeController {
         return employeeService.findById(id);
     }
 
+    /**
+     * create method with validation example
+     *
+     * @param employeeDTO
+     * @param result
+     * @return {@link EmployeeDTO}
+     */
     @PostMapping("/employeesCreate")
-    public EmployeeDTO create(@RequestBody EmployeeDTO employeeDTO) {
-        return employeeService.save(employeeDTO);
+    public ResponseEntity<?> create(@Valid @RequestBody EmployeeDTO employeeDTO, BindingResult result) {
+        LOGGER.info("EmployeeDTO {}, result {}" , employeeDTO , result);
+        EmployeeDTO newEmployeeDTO = null;
+        Map<String, Object> response = new HashMap<>();
+        if (result.hasErrors()) {
+            List<String> errors = result.getFieldErrors().stream()
+                    .map(err -> err.getField() + err.getDefaultMessage())
+                    .collect(Collectors.toList());
+            response.put("errors", errors);
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        try {
+            newEmployeeDTO = employeeService.save(employeeDTO);
+        } catch (DataAccessException e) {
+            response.put("message", "Error inserting into database");
+            response.put("error", e.getMessage().concat(" : ").concat(e.getMostSpecificCause().getMessage()));
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        response.put("message", "Employee created successfully");
+        response.put("employee", newEmployeeDTO);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
 
@@ -41,7 +72,6 @@ public class EmployeeController {
         employeeDTOcurrent.setName(employeeDTO.getName());
         employeeDTOcurrent.setEmail(employeeDTO.getEmail());
         employeeDTOcurrent.setPhone(employeeDTO.getPhone());
-        employeeDTOcurrent.setImageUrl(employeeDTO.getImageUrl());
         employeeDTOcurrent.setJobTitle(employeeDTO.getJobTitle());
         return employeeService.save(employeeDTO);
     }

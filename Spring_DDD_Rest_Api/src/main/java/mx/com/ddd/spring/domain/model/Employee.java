@@ -4,6 +4,9 @@ import lombok.*;
 import mx.com.ddd.spring.domain.base.EntityBase;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 @AllArgsConstructor @NoArgsConstructor @ToString
 @Entity
@@ -11,15 +14,14 @@ import javax.persistence.*;
 @Setter
 @Table(name="employee")
 public class Employee extends EntityBase {
-
+    @NotEmpty
+    @Size(min = 3, max =40)
     private String name;
+    @NotEmpty
+    @Email
     private String email;
     @Column(name="job_tittle")
     private String jobTitle;
     private String phone;
-    @Column(name="image_url")
-    private String imageUrl;
-   // @Column(nullable = false, updatable = false)
-    //private String employeeCode;
 
 }
