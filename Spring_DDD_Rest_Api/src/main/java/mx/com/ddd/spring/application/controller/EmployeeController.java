@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 
-@CrossOrigin(origins = "http://localhost:3000/")
+
+//@CrossOrigin(origins = {"http://localhost:3000"})
 @RestController
 @RequestMapping("/employee/api/v1")
 public class EmployeeController {
@@ -28,13 +29,14 @@ public class EmployeeController {
         return employeeService.findById(id);
     }
 
-    @PostMapping("/employees")
+    @PostMapping("/employeesCreate")
     public EmployeeDTO create(@RequestBody EmployeeDTO employeeDTO) {
         return employeeService.save(employeeDTO);
     }
 
-    @PutMapping("/employees/{id}")
-    public EmployeeDTO update(@RequestBody EmployeeDTO employeeDTO, @PathVariable Long id) {
+
+    @PutMapping("/employeesUpdate/{id}")
+    public EmployeeDTO update(@PathVariable Long id, @RequestBody EmployeeDTO employeeDTO) {
         EmployeeDTO employeeDTOcurrent = employeeService.findById(id);
         employeeDTOcurrent.setName(employeeDTO.getName());
         employeeDTOcurrent.setEmail(employeeDTO.getEmail());
