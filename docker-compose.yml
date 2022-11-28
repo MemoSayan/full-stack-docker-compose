@@ -1,0 +1,19 @@
+version: "2"
+services:
+  springapp:
+    container_name: springapp
+    build: ./Spring_DDD_Rest_Api
+    expose:
+        -  8080
+    volumes:
+        - ./Spring_DDD_Rest_Api:/usr/src/app
+  reactapp:
+    container_name: reactapp
+    build: ./frontend-employee-crud
+    expose:
+        - 3000
+    volumes:
+        - ./frontend-employee-crud:/usr/src/app
+
+
+
