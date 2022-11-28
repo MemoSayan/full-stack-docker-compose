@@ -1,14 +1,14 @@
 version: "2"
 services:
-  springapp:
-    container_name: springapp
+  springddd_backend_app:
+    container_name: springddd_backend_app
     build: ./Spring_DDD_Rest_Api
     ports:
         -  8080:8080
     volumes:
         - ./Spring_DDD_Rest_Api:/usr/src/app
-  reactapp:
-    container_name: reactapp
+  reactcrud_frontend_app:
+    container_name: reactcrud_frontend_app
     build: ./frontend-employee-crud
     ports:
         - 3000:3000
